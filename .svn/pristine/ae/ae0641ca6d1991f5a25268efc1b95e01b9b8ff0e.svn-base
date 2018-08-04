@@ -1,0 +1,85 @@
+﻿@model BookStore.DA.Order
+@{
+    ViewBag.Title = "Edit Status";
+}
+
+<h2>Edit Status</h2>
+
+<div class="row">
+    @using (Html.BeginForm("Edit", "MyOrders", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        <div class="form-group">
+            @Html.HiddenFor(m => m.Id)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Status, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownList("Status", new SelectList(Model.OrderStatusList, "Id", "Code"),
+                    "Select Order Status", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @Html.ActionLink("Cancel", "MyOrders", null, new { role = "button", @class = "btn btn-sm btn-default" })
+                <input type="submit" value="Save" class="btn btn-sm btn-primary" />
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.HiddenFor(m => m.CustomerId, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.HiddenFor(m => m.CustomerId, new { @class = "form-control", @MaxLength = 50 })
+                @Html.ValidationMessageFor(m => m.CustomerId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.HiddenFor(m => m.OrderDate, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.HiddenFor(m => m.OrderDate, new { @class = "form-control", @MaxLength = 50 })
+                @Html.ValidationMessageFor(m => m.OrderDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.HiddenFor(m => m.ShippingAddressId, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.HiddenFor(m => m.ShippingAddressId, new { @class = "form-control", @MaxLength = 50 })
+                @Html.ValidationMessageFor(m => m.ShippingAddressId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.HiddenFor(m => m.PaymentTypeId, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.HiddenFor(m => m.PaymentTypeId, new { @class = "form-control", @MaxLength = 50 })
+                @Html.ValidationMessageFor(m => m.PaymentTypeId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.HiddenFor(m => m.TotalPrice, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.HiddenFor(m => m.TotalPrice, new { @class = "form-control", @MaxLength = 50 })
+                @Html.ValidationMessageFor(m => m.TotalPrice, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.HiddenFor(m => m.TotalDiscount, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.HiddenFor(m => m.TotalDiscount, new { @class = "form-control", @MaxLength = 50 })
+                @Html.ValidationMessageFor(m => m.TotalDiscount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.HiddenFor(m => m.TotalShippingCost, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.HiddenFor(m => m.TotalShippingCost, new { @class = "form-control", @MaxLength = 50 })
+                @Html.ValidationMessageFor(m => m.TotalShippingCost, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.HiddenFor(m => m.GrandTotal, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.HiddenFor(m => m.GrandTotal, new { @class = "form-control", @MaxLength = 50 })
+                @Html.ValidationMessageFor(m => m.GrandTotal, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    }
+</div>

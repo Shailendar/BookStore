@@ -1,0 +1,144 @@
+﻿@{
+    ViewBag.Title = "Choose your payment method";
+}
+
+<div class="page-header">
+    <h3 class="no-padding no-margin">Choose your payment method</h3>
+</div>
+<div class="bs-example">
+    <label class="alert alert-warning" style="width: 100%;">Amount Payable: Rs.@ViewBag.GrandTotal /-</label>
+    <br />
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#CreditCard">Credit Card</a></li>
+        <li><a data-toggle="tab" href="#DebitCard">Debit Card</a></li>
+        <li><a data-toggle="tab" href="#NetBanking">Net Banking</a></li>
+        <li><a data-toggle="tab" href="#Cashondelivery">Cash on delivery</a></li>
+    </ul>
+
+    @*Credit Card*@
+    <div class="tab-content">
+        <div id="CreditCard" class="tab-pane fade in active">
+            <div class="jumbotron">
+                <div>
+                    <label for="CardType">CARD TYPE</label>
+                    <input type="radio" name="optradio" />
+                    <img src="~/Content/Images/visa.jpg" height="16" />
+                    <input type="radio" name="optradio">
+                    <img src="~/Content/Images/Mastercard.gif" height="20" />
+                    <input type="radio" name="optradio">
+                    <img src="~/Content/Images/Rupay.jpg" height="20" />
+                </div><br />
+                <div>
+                    <label for="CardNo">CARD NUMBER</label>
+                    <input type="text" class="form-control">
+                </div><br />
+                <div>
+                    <label for="Name">NAME ON CARD</label>
+                    <input type="text" class="form-control">
+                </div><br />
+                <div>
+                    <label for="CVV">CVV</label>
+                    <input type="text" class="form-control">
+                </div><br />
+                <div>
+                    <label for="Expiry">EXPIRY DATE</label>
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                        Month
+                        <span class="caret"></span>
+                    </button>
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                        Year
+                        <span class="caret"></span>
+                    </button>
+                </div><br />
+                <div class="form-group">
+                    <div class="col-md-pull-10">
+                        @Html.ActionLink("Pay Now", "VerifyPayment", "Payment", new { bookId = @ViewBag.BookId }, new { @class = "btn btn-primary btn-block", role = "button" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*Debit Card*@
+        <div id="DebitCard" class="tab-pane fade">
+            <div class="jumbotron">
+                <div>
+                    <label for="CardType">CARD TYPE</label>
+                    <input type="radio" name="optradio">
+                    <img src="~/Content/Images/visa.jpg" width="40" height="20" />
+                    <input type="radio" name="optradio">
+                    <img src="~/Content/Images/Mastercard.gif" width="50" height="25" />
+                    <input type="radio" name="optradio">
+                    <img src="~/Content/Images/Rupay.jpg" width="45" height="30" />
+                </div><br />
+                <div>
+                    <label for="CardNo">CARD NUMBER</label>
+                    <input type="text" class="form-control">
+                </div><br />
+                <div>
+                    <label for="Name">NAME ON CARD</label>
+                    <input type="text" class="form-control">
+                </div><br />
+                <div>
+                    <label for="CVV">CVV</label>
+                    <input type="text" class="form-control">
+                </div><br />
+                <div>
+                    <label for="Expiry">EXPIRY DATE</label>
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                        Month
+                        <span class="caret"></span>
+                    </button>
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                        Year
+                        <span class="caret"></span>
+                    </button>
+                </div><br />
+                <div class="form-group">
+                    <div class="col-md-pull-10">
+                        @Html.ActionLink("Pay Now", "VerifyPayment", "Payment", new { bookId = @ViewBag.BookId }, new { @class = "btn btn-primary btn-block", role = "button" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*Net Banking*@
+        <div id="NetBanking" class="tab-pane fade">
+            <div class="jumbotron">
+                <div>
+                    <label for="Select">Select your Bank</label>
+                    <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+                        Select Bank
+                        <span class="caret"></span>
+                    </button>
+                </div><br />
+                <div>
+                    <label for="Name">User Id</label>
+                    <input type="text" class="form-control">
+                </div><br />
+                <div>
+                    <label for="Password">Password</label>
+                    <input type="text" class="form-control">
+                </div><br />
+                <div class="col-md-pull-10">
+                    @Html.ActionLink("Pay Now", "VerifyPayment", "Payment", new { bookId = @ViewBag.BookId }, new { @class = "btn btn-primary btn-block", role = "button" })
+                </div>
+            </div>
+        </div>
+
+        @*COD*@
+        <div id="Cashondelivery" class="tab-pane fade">
+            <div class="jumbotron">
+                <div>
+                    <label for="Details">
+                        If you choose this option you have to pay the cash to our person
+                        when the product is deliverd at your shipping address.
+                    </label>
+                </div><br />
+                <div class="col-sm-pull-8">
+                    @Html.ActionLink("Pay Now", "VerifyPayment", "Payment", new { bookId = @ViewBag.BookId }, new { @class = "btn btn-primary btn-block", role = "button" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

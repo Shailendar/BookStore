@@ -1,0 +1,56 @@
+﻿@model IEnumerable<BookStore.DA.OrderDetails>
+@{
+    ViewBag.Title = "Order Items";
+    int serialNumber = 1;
+}
+<h2>Order Items</h2>
+
+<div class="jumbotron">
+    <div class="panel panel-default">
+        <table style="background-color:white" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th style="width: 5%; text-align: center;">S.No</th>
+                    <th style="width: 7%; text-align: center;">Image</th>
+                    <th style="width: 5%; text-align: center;">Book Name</th>
+                    <th style="width: 3%; text-align: center;">Unit Price</th>
+                    <th style="width: 7%; text-align: center;">Discount</th>
+                    <th style="width: 3%; text-align: center;">Shipping Cost</th>
+                    <th style="width: 2%; text-align: center;">Quantity</th>
+                    <th style="width: 10%; text-align: center;">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="text-align: center;">@serialNumber</td>
+                        <td>
+                            @if (item.Book.Image != null)
+                            {
+                                var base64 = Convert.ToBase64String(item.Book.Image);
+                                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+                                <img style="height:170px" src="@imgSrc" class="img-thumbnail" /><br />
+                            }
+                            else
+                            {
+                                <img style="height:170px" src="~/Content/Images/No-Image.png" class="img-thumbnail" /><br />
+                            }
+                        </td>
+                        <td style="text-align: center;">
+                            @Html.ActionLink(item.Book.Name, "OrderDetails", "OrderDetails", new { orderId = item.Id }, null)
+                        </td>
+                        <td style="text-align: center;">@item.UnitPrice</td>
+                        <td style="text-align: center;">@item.Discount</td>
+                        <td style="text-align: center;">@item.ShippingCost</td>
+                        <td style="text-align: center;">@item.Quantity</td>
+                        <td style="text-align: center;">@item.Total</td>
+                    </tr>
+                            serialNumber = serialNumber + 1;
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

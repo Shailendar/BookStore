@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Order Confirmation";
+}
+
+<div class="page-header">
+    <h3 class="no-padding no-margin">Order Confirmation</h3>
+</div>
+@if (TempData["SUCCESS"] != null)
+{
+    <label class="alert alert-success text-center" style="width: 100%;">@TempData["SUCCESS"].ToString()</label>
+}
+
+@if (TempData["ERROR"] != null)
+{
+    <label class="alert alert-danger" style="width: 100%;">@TempData["ERROR"].ToString()</label>
+}
+
+

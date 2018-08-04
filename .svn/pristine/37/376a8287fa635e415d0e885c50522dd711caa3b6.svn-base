@@ -1,0 +1,82 @@
+﻿@using Microsoft.AspNet.Identity
+@using BookStore.Models
+@using BookStore.DA
+
+<ul class="nav navbar-nav">
+
+    @if (User != null && User.Identity.IsAuthenticated == true)
+    {
+        //var currentUser = ((System.Security.Claims.ClaimsPrincipal)(User));
+        var currentUser = ((BookStore.Models.CustomPrincipal)(User));
+        BookStoreDbContext _db = new BookStoreDbContext();
+        IEnumerable<Cart> userCart = _db.Cart.Where(m => m.CustomerId == currentUser.CustomerId).ToList();
+        
+        if (currentUser.Role.ToUpper().Equals("ADMIN"))
+        {
+            <li><a href="~/Home/Index"><i class="glyphicon glyphicon-home"></i>Home</a></li>
+            <li>@Html.ActionLink("Categories", "CategoryList", "Category")</li>
+
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Books <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="~/Book/BookList"><i class="glyphicon glyphicon-book"></i>Books</a></li>
+                    <li>@Html.ActionLink("Book Status", "BookStatusList", "BookStatus")</li>
+                </ul>
+            </li>
+            <li>@Html.ActionLink("Payment Type", "PaymentTypeList", "PaymentType")</li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Customer Orders <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="~/MyOrders/MyOrders"><i class="glyphicon "></i>Customer Orders</a></li>
+                    <li>@Html.ActionLink("Order Status", "OrderStatusList", "OrderStatus")</li>
+                </ul>
+            </li>
+            <li>
+                <a href="~/MyProfile/MyProfile"><i class="glyphicon glyphicon-user"></i> My Profile</a>
+            </li>
+        }
+        else if (currentUser.Role.ToUpper().Equals("CUSTOMER"))
+        {
+
+            <li><a href="~/Home/Index"><i class="glyphicon glyphicon-home"></i> Home</a></li>
+            @*@Html.ActionLink("Home", "Index", "Home")*@
+            @*<li>@Html.ActionLink("My Orders", "MyOrders", "MyOrders")</li>*@
+            <li><a href="~/MyOrders/MyOrders"><i class="glyphicon glyphicon-list"></i> My Orders</a></li>
+            <li><a href="~/MyProfile/MyProfile"><i class="glyphicon glyphicon-user"></i> My Profile</a></li>
+            @*@Html.ActionLink("MyProfile", "MyProfile", "MyProfile")*@
+            <li>
+                <a href="~/ShoppingCart/ShoppingCart"><i class="glyphicon glyphicon-shopping-cart"></i><span class="badge" style="background-color: yellow; margin-left: -16px; margin-top: -35px; font-size: 8px;">@userCart.Count()</span>Cart</a>
+            </li>
+            @*@Html.ActionLink("Cart", "ShoppingCart", "ShoppingCart")*@
+        }
+    }
+    else
+    {
+        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+        <li>@Html.ActionLink("About", "About", "Home")</li>
+        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+    }
+</ul>
+
+@*@if (Request.IsAuthenticated)*@
+@if (User != null && User.Identity.IsAuthenticated == true)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "nav navbar-nav navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "MyProfile", "MyProfile", routeValues: null, htmlAttributes: new { title = "Manage" })
+            </li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+        </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    </ul>
+}

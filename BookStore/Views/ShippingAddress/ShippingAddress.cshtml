@@ -1,0 +1,134 @@
+﻿@model BookStore.DA.ShippingAddress
+@{
+    ViewBag.Title = "ShippingAddress";
+}
+
+<h3>Shipping Address</h3>
+<div class="jumbotron" style="width:300px;">
+
+    @if (Request.Params["message"] != null)
+    {
+        if (Request.Params["message"].ToString() == "1")
+        {
+            <div style="margin: 10px 0 10px 0;" class="text-center">
+                <span class="label label-success">Your Address added successfully</span>
+            </div>
+        }
+        else if (Request.Params["message"].ToString() == "2")
+        {
+            <div style="margin: 10px 0 10px 0;" class="text-center">
+                <span class="label label-success">Your Address updated successfully</span>
+            </div>
+        }
+    }
+    <div>@Html.HiddenFor(model => model.Id)</div>
+    <div>@Html.HiddenFor(model => model.CustomerId)</div>
+    <div>
+        @Html.DisplayFor(model => model.Name)
+    </div>
+    <div>
+        @Html.DisplayFor(model => model.Street1)
+    </div>
+    <div>
+        @Html.DisplayFor(model => model.Street2)
+    </div>
+    <div>
+        @Html.DisplayFor(model => model.Landmark)
+    </div>
+    <div>
+        @Html.DisplayFor(model => model.City)
+    </div>
+    <div>
+        @Html.DisplayFor(model => model.State)
+    </div>
+    <div>
+        @Html.DisplayFor(model => model.Zipcode)
+    </div>
+    <div>
+        @Html.DisplayFor(model => model.Mobile)
+    </div><br />
+    <div>
+        @if (Model.Id == 0)
+        {
+            @Html.ActionLink("Place your order", "ShippingAddress", "ShippingAddress", new { grandtotal = @ViewBag.grandtotal, bookId = @ViewBag.BookId }, new { @class = "btn btn-primary btn-block", role = "button" })
+        }
+        else
+        {
+            @Html.ActionLink("Place your order", "PaymentMethod", "Payment", new { grandtotal = @ViewBag.grandtotal, bookId = @ViewBag.BookId }, new { @class = "btn btn-primary btn-block", role = "button" })
+        }
+    </div>
+</div>
+
+<div class="well" style="height:600px">
+    <div class="row">
+        @using (Html.BeginForm("ShippingAddress", "ShippingAddress", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.CustomerId)
+
+            <div class="well" style="background-color:white; margin-left:300px; width:600px; height:550px;">
+                <div>
+                    <h3>Add/Update Address</h3>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+                    @Html.TextBoxFor(m => m.Name, new { @class = " form-control ", @MaxLength = 20 })
+                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Street1, new { @class = "col-md-2 control-label" })
+                    @Html.TextBoxFor(m => m.Street1, new { @class = "form-control ", @MaxLength = 20 })
+                    @Html.ValidationMessageFor(m => m.Street1, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Street2, new { @class = "col-md-2 control-label" })
+                    @Html.TextBoxFor(m => m.Street2, new { @class = "form-control", @MaxLength = 20 })
+                    @Html.ValidationMessageFor(m => m.Street2, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Landmark, new { @class = "col-md-2 control-label" })
+                    @Html.TextBoxFor(m => m.Landmark, new { @class = "form-control", @MaxLength = 10 })
+                    @Html.ValidationMessageFor(m => m.Landmark, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.City, new { @class = "col-md-2 control-label" })
+                    @Html.TextBoxFor(m => m.City, new { @class = "form-control", @MaxLength = 10 })
+                    @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.State, new { @class = "col-md-2 control-label" })
+                    @Html.TextBoxFor(m => m.State, new { @class = "form-control", @MaxLength = 10 })
+                    @Html.ValidationMessageFor(m => m.State, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Zipcode, new { @class = "col-md-2 control-label" })
+                    @Html.TextBoxFor(m => m.Zipcode, new { @class = "form-control", @Value = (Model.Id == 0 ? "" : Model.Zipcode.ToString()), @MaxLength = 10 })
+                    @Html.ValidationMessageFor(m => m.Zipcode, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Mobile, new { @class = "col-md-2 control-label" })
+                    @Html.TextBoxFor(m => m.Mobile, new { @class = "form-control", @MaxLength = 10 })
+                    @Html.ValidationMessageFor(m => m.Mobile, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        @Html.ActionLink("cancel", "ShippingAddress", new { grandtotal = @ViewBag.grandtotal, bookId = @ViewBag.BookId }, new { role = "button", @class = "btn btn-sm btn-default" })
+                        <input type="submit" value="Save" class="btn btn-sm btn-primary" />
+                    </div>
+                </div>
+            </div>
+        }
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+        }
+    </div>
+</div>

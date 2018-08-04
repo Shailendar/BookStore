@@ -1,0 +1,65 @@
+﻿@model IEnumerable<BookStore.DA.BookStatus>
+
+@{
+    ViewBag.Title = "Book Status List";
+   
+}
+
+<div style="margin: 10px 0 10px 0;">
+    <span class="col-lg-6 pull-left header">Book Status List</span>
+    <span class="col-lg-6">
+        @Html.ActionLink("Add Book Status", "AddOrEdit", null, new { @class = "pull-right btn btn-primary btn-sm" })
+    </span>
+    <div class="clearfix"></div>
+</div>
+
+@if (Request.Params["message"] != null)
+{
+    if (Request.Params["message"].ToString() == "1")
+    {
+        <div style="margin: 10px 0 10px 0;" class="text-center">
+            <span class="label label-success">Book Status added successfully</span>
+        </div>
+    }
+
+    else if (Request.Params["message"].ToString() == "2")
+    {
+        <div style="margin: 10px 0 10px 0;" class="text-center">
+            <span class="label label-success">Book Status updated successfully</span>
+        </div>
+    }
+}
+
+<table class="table table-bordered">
+    <thead style="background-color:gray;color:white">
+        <tr>
+            <td style=" width:8%; text-align:center; ">S.No</td>
+            <td>Book Status</td>
+            <td style="width: 10%; text-align: center;">Status</td>
+            <td style="width: 8%; text-align: center;">Edit</td>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="text-align: center;">@item.Id</td>
+                <td>@item.Code</td>
+                <td style="text-align: center;">
+                    @if (item.IsActive)
+                    {
+                        <label class="label label-success">Active</label>
+                    }
+                    else
+                    {
+                        <label class="label label-default">Inactive</label>
+                    }
+                </td>
+                <td style="text-align: center;">
+                    @Html.ActionLink("Edit", "AddOrEdit", new { bookStatusId = item.Id }, new { @class = "btn btn-primary btn-sm" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

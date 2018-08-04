@@ -1,0 +1,108 @@
+﻿@model IEnumerable<BookStore.DA.Book>
+
+@{
+    ViewBag.Title = "Books";
+    int serialNumber = 1;
+}
+
+<div style="margin: 10px 0 10px 0;">
+    <span class="col-lg-6 pull-left header">Books</span>
+    <span class="col-lg-6">
+        @Html.ActionLink("Add Book", "AddOrEdit", null, new { @class = "pull-right btn btn-primary btn-sm" })
+    </span>
+    <div class="clearfix"></div>
+</div>
+
+<input type="text" id="txtfilter" placeholder="Search by Book Name" class="form-control" />
+
+<div id="empInfoDetails">
+</div>
+
+@if (Request.Params["message"] != null)
+{
+    if (Request.Params["message"].ToString() == "1")
+    {
+        <div style="margin: 10px 0 10px 0;" class="text-center">
+            <span class="label label-success">Book added successfully</span>
+        </div>
+    }
+    else if (Request.Params["message"].ToString() == "2")
+    {
+        <div style="margin: 10px 0 10px 0;" class="text-center">
+            <span class="label label-success">Book updated successfully</span>
+        </div>
+    }
+}
+<div class="panel panel-default">
+    <table id="tblData" class="table table-bordered" style="font-size: 12px !important;">
+        <thead>
+            <tr style="background-color:gray; color:white">
+                <th style="width: 6%; text-align: center;">S.No</th>
+                <th style="width: 15%; text-align: center;">Category Name</th>
+                <th style="text-align: center;">Book Name</th>
+                <th style="width: 8%; text-align: center;">Unit Price</th>
+                <th style="width: 8%; text-align: center;">Discount</th>
+                <th style="width: 10%; text-align: center;">Shipping Cost</th>
+                <th style="width: 6%; text-align: center;">Quantity</th>
+                <th style="width: 10%; text-align: center;">Display Order</th>
+                <th style="width: 10%; text-align: center;">Status</th>
+                <th style="width: 6%; text-align: center;">Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td style="text-align: center;">@serialNumber</td>
+                    <td style="text-align: left;">@item.Category.Name</td>
+                    <td style="text-align: left;">@item.Name</td>
+                    <td style="text-align: center;">Rs. @item.UnitPrice/-</td>
+                    <td style="text-align: center;">Rs. @item.Discount/-</td>
+                    <td style="text-align: center;">Rs. @item.ShippingCost/-</td>
+                    <td style="text-align: center;">@item.Quantity</td>
+                    <td style="text-align: center;">@item.DisplayOrder</td>
+                    <td style="text-align: center;">@item.BookStatus.Code</td>
+
+                    <td style="text-align: center;">
+                        @Html.ActionLink("Edit", "AddOrEdit", new { bookId = item.Id }, new { @class = "btn btn-primary btn-sm" })
+                    </td>
+                </tr>
+
+                serialNumber = serialNumber + 1;
+            }
+        </tbody>
+    </table>
+</div>
+@section scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#txtfilter").keyup(function () {
+                $("#tblData").hide('fast'); //Hide the Table showing All Data
+                $('#empInfoDetails').show('fast'); //Show the <div> showing filtered Data
+                var data = $(this).val();
+                var url = "/Book/BookList/"; //The Url to the Action  Method of the Controller
+                var Emp = {}; //The Object to Send Data Back to the Controller
+                Emp.Name = $("#txtfilter").val();
+                // Check whether the TextBox Contains text
+                // if it does then make ajax call
+                if ($("#txtfilter").val().length > 0 || $("#txtfilter").val() != "") {
+                    $.ajax({
+                        type: 'POST',
+                        url: url,
+                        data: Emp,
+                        dataType: "html",
+                        success: function (evt) {
+                            $('#empInfoDetails').html(evt);
+                        },
+                    });
+                }
+                else {
+                    $('#empInfoDetails').hide('fast'); //Hide the <div>
+                    $("#tblData").show('fast'); //Hide the Table
+                }
+            });
+        });
+    </script>
+}

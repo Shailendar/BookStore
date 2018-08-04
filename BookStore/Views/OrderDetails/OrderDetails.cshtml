@@ -1,0 +1,77 @@
+﻿@model BookStore.DA.OrderDetails
+@{
+    ViewBag.Title = "Order Item Details";
+}
+<div class="jumbotron">
+    <h2>Order Item Details</h2>
+    @Html.HiddenFor(m => m.Id)
+    <div class="col-sm-6 col-md-6 col-lg-3">
+        @if (Model.Book.Image != null)
+        {
+            var base64 = Convert.ToBase64String(Model.Book.Image);
+            var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+            <img style="height:250px" src="@imgSrc" class="img-thumbnail" /><br />
+        }
+        else
+        {
+            <img style="height:250px" src="~/Content/Images/No-Image.png" class="img-thumbnail" /><br />
+        }
+    </div>
+    <div style="background:white; margin-left:300px;width:300px; margin-bottom:5px;" class="well">
+        <strong>
+            @Html.DisplayNameFor(model => model.OrderId)
+        </strong>
+        <div>
+            @Html.DisplayFor(model => model.OrderId)
+        </div>
+    </div>
+    <div style="background:white; margin-left:300px;width:500px; margin-bottom:5px;" class="well">
+        <strong>
+            @Html.DisplayNameFor(model => model.Book.Name)
+        </strong>
+
+        <div>
+            @Html.DisplayFor(model => model.Book.Name)
+        </div>
+    </div>
+
+    <div style="background:white; margin-left:300px;width:300px; margin-bottom:5px;" class="well">
+        <strong>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </strong>
+
+        <div>
+            @Html.DisplayFor(model => model.Quantity)
+        </div>
+        <strong>
+            @Html.DisplayNameFor(model => model.UnitPrice)
+        </strong>
+
+        <div>
+            @Html.DisplayFor(model => model.UnitPrice)
+        </div>
+        <strong>
+            @Html.DisplayNameFor(model => model.Discount)
+        </strong>
+
+        <div>
+            @Html.DisplayFor(model => model.Discount)
+        </div>
+        <strong>
+            @Html.DisplayNameFor(model => model.ShippingCost)
+        </strong>
+
+        <div>
+            @Html.DisplayFor(model => model.ShippingCost)
+        </div>
+        <strong>
+            @Html.DisplayNameFor(model => model.Total)
+        </strong>
+
+        <div>
+            @Html.DisplayFor(model => model.Total)
+        </div>
+    </div>
+</div>
+

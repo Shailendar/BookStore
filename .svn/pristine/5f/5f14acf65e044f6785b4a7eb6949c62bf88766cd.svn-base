@@ -1,0 +1,18 @@
+﻿@model BookStore.DA.Cart
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h3>Edit Quantity</h3><br />
+
+@using (Html.BeginForm())
+{
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.CustomerId)
+        @Html.HiddenFor(model => model.BookId)
+            @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-1" })
+            @Html.DropDownListFor(model => model.Quantity,
+                  new SelectList(new[] { 1, 2, 3, 4, 5 }), new { @onchange = "form.submit();" })
+}
+

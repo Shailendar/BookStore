@@ -1,0 +1,57 @@
+﻿@model List<BookStore.DA.Book>
+
+@{
+    ViewBag.Title = "Order";
+    int srNo = 0;
+    decimal grandTotal = 0;
+}
+
+<h2>Order</h2>
+
+<div class="jumbotron" style="">
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Book Name</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Discount</th>
+                <th>Shipping Cost</th>
+                <th>Total Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@(srNo += 1)</td>
+                    <td>@item.Name</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.UnitPrice</td>
+                    <td>@item.Discount</td>
+                    <td>@item.ShippingCost</td>
+                    <td>
+                        @{
+                var itemTotal = ((item.Quantity * item.UnitPrice) - item.Discount + item.ShippingCost);
+                <span>@itemTotal</span>
+                grandTotal += itemTotal;
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="6" class="text-right">Grand Total</th>
+                <th colspan="6">@grandTotal</th>
+            </tr>
+        </tfoot>
+
+    </table>
+
+    <div class="pull-right">
+        @Html.ActionLink("Place Your Order", "ShippingAddress", "ShippingAddress", new { grandTotal = grandTotal, bookId = @ViewBag.BookId }, new { @class = "btn btn-primary btn-block", role = "button" })
+    </div>
+</div>

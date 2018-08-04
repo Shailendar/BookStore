@@ -1,0 +1,257 @@
+﻿@model BookStore.DA.ViewModel
+@{
+    ViewBag.Title = "MY BOOK STORE";
+    var currentUser = new BookStore.Models.CustomPrincipal("");
+    if (User.Identity.IsAuthenticated)
+    {
+        currentUser = ((BookStore.Models.CustomPrincipal)(User));
+    }
+}
+
+@using (Html.BeginForm("Search", "Home", FormMethod.Post))
+{
+    <input type="text" id="txtBook" name="Name" class="col-md-2 form-control" />
+    <input type="hidden" id="hfBook" name="Id" />
+    <input type="submit" id="btnSubmit" value="Submit" class="btn btn-md btn-primary" />
+}
+<img src="~/Content/Images/bookreader.jpg" style="height:250px; width:100%" />
+
+@if (currentUser.Role != null && currentUser.Role.ToUpper().Equals("CUSTOMER"))
+{
+    if (Model.Books.Count > 0)
+    {
+        <div>
+            <label class="pull-left col-md-12" style="font-size:200%; color:black">
+                Books
+            </label>
+
+            @foreach (var item in Model.Books)
+            {
+                <div class="col-md-3 text-center">
+                    <a href="@Url.Action("Details", "BookInformation", new { Id = item.Id },null)">
+                        <div class="panel panel-default">
+                            <div class="panel-body" style="background-color: #f1f4f5; border: 1px solid gray">
+                                @if (item.Image != null)
+                                {
+                                    var base64 = Convert.ToBase64String(item.Image);
+                                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+                                    <img style="height:170px" src="@imgSrc" class="img-thumbnail" /><br />
+                                }
+                                else
+                                {
+                                    <img style="height:170px" src="~/Content/Images/No-Image.png" class="img-thumbnail" /><br />
+                                }
+                                <lable>@item.Name</lable><br />
+                                <label class="text-danger">&#8377; @item.UnitPrice/-</label>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    }
+
+    <div>
+        <label class="pull-left col-md-12" style="font-size:200%; color:black">
+            Most Popular Books <span style="font-size:12px;">@Html.ActionLink("View All", "viewPopularBooks")</span>
+        </label>
+
+        @foreach (var item in Model.mostPopularBooks)
+        {
+            <div class="col-md-3 text-center">
+                <a href="@Url.Action("Details", "BookInformation", new { Id = item.Id },null)">
+                    <div class="panel panel-default">
+                        <div class="panel-body" style="background-color: #f1f4f5; border: 1px solid gray">
+                            @if (item.Image != null)
+                            {
+                                var base64 = Convert.ToBase64String(item.Image);
+                                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+                                <img style="height:170px" src="@imgSrc" class="img-thumbnail" /><br />
+                            }
+                            else
+                            {
+                                <img style="height:170px" src="~/Content/Images/No-Image.png" class="img-thumbnail" /><br />
+                            }
+                            <lable>@item.Name</lable><br />
+                            <label class="text-danger">&#8377; @item.UnitPrice/-</label>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+    if (Model.browsingHistoryBooks.Count() != 0)
+    {
+        <div>
+            <label class="pull-left col-md-12" style="font-size:200%; color:black">
+                Recently Viewed Books <span style="font-size:12px;">@Html.ActionLink("View All", "viewHistory")</span>
+            </label>
+
+            @foreach (var item in Model.browsingHistoryBooks)
+            {
+                <div class="col-md-3 text-center">
+                    @Html.ActionLink("Delete", "Delete", new { BookId = @item.Id })
+                    <a href="@Url.Action("Details", "BookInformation", new { Id = item.Id },null)">
+                        <div class="panel panel-default">
+                            <div class="panel-body" style="background-color: #f1f4f5; border: 1px solid gray">
+                                @if (item.Image != null)
+                                {
+                                    var base64 = Convert.ToBase64String(item.Image);
+                                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+                                    <img style="height:170px" src="@imgSrc" class="img-thumbnail" /><br />
+                                }
+                                else
+                                {
+                                    <img style="height:170px" src="~/Content/Images/No-Image.png" class="img-thumbnail" /><br />
+                                }
+                                <lable>@item.Name</lable><br />
+                                <label class="text-danger">&#8377; @item.UnitPrice/-</label>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    }
+}
+else
+{
+    if (Model.Books.Count > 0)
+    {
+        <div>
+            <label class="pull-left col-md-12" style="font-size:200%; color:black">
+                Books
+            </label>
+
+            @foreach (var item in Model.Books)
+            {
+                <div class="col-md-3 text-center">
+                    <a href="@Url.Action("Details", "BookInformation", new { Id = item.Id },null)">
+                        <div class="panel panel-default">
+                            <div class="panel-body" style="background-color: #f1f4f5; border: 1px solid gray">
+                                @if (item.Image != null)
+                                {
+                                    var base64 = Convert.ToBase64String(item.Image);
+                                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+                                    <img style="height:170px" src="@imgSrc" class="img-thumbnail" /><br />
+                                }
+                                else
+                                {
+                                    <img style="height:170px" src="~/Content/Images/No-Image.png" class="img-thumbnail" /><br />
+                                }
+                                <lable>@item.Name</lable><br />
+                                <label class="text-danger">&#8377; @item.UnitPrice/-</label>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    }
+    <div>
+        <label class="pull-left col-md-12" style="font-size:200%; color:black">
+            Most Popular Books <span style="font-size:12px;">@Html.ActionLink("View All", "viewPopularBooks")</span>
+        </label>
+
+        @foreach (var item in Model.mostPopularBooks)
+        {
+            <div class="col-md-3 text-center">
+                <a href="@Url.Action("Details", "BookInformation", new { Id = item.Id },null)">
+                    <div class="panel panel-default">
+                        <div class="panel-body" style="background-color: #f1f4f5; border: 1px solid gray">
+                            @if (item.Image != null)
+                            {
+                                var base64 = Convert.ToBase64String(item.Image);
+                                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+                                <img style="height:170px" src="@imgSrc" class="img-thumbnail" /><br />
+                            }
+                            else
+                            {
+                                <img style="height:170px" src="~/Content/Images/No-Image.png" class="img-thumbnail" /><br />
+                            }
+                            <lable>@item.Name</lable><br />
+                            <label class="text-danger">&#8377; @item.UnitPrice/-</label>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+
+    <div>
+        <label class="pull-left col-md-12" style="font-size:200%; color:black">
+            Recently Purchased Books <span style="font-size:12px;">@Html.ActionLink("View All", "recentPurchasedBooks")</span>
+        </label>
+
+        @foreach (var item in Model.recentPurchasedBooks)
+        {
+            <div class="col-md-3 text-center">
+                <a href="@Url.Action("Details", "BookInformation", new { Id = item.Id },null)">
+                    <div class="panel panel-default">
+                        <div class="panel-body" style="background-color: #f1f4f5; border: 1px solid gray">
+                            @if (item.Image != null)
+                            {
+                                var base64 = Convert.ToBase64String(item.Image);
+                                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+                                <img style="height:170px" src="@imgSrc" class="img-thumbnail" /><br />
+                            }
+                            else
+                            {
+                                <img style="height:170px" src="~/Content/Images/No-Image.png" class="img-thumbnail" /><br />
+                            }
+                            <lable>@item.Name</lable><br />
+                            <label class="text-danger">&#8377; @item.UnitPrice/-</label>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+}
+
+@section scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jquery-1.12.4.min.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.submit').click(function () {
+                $('.Name').addClass('required');
+            });
+            $("#txtBook").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/Home/Test",
+                        type: "Post",
+                        dataType: "json",
+                        data: {
+                            term: request.term,
+                        },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return item;
+                            }))
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
+                },
+                select: function (e, i) {
+                    $("#hfUser").val(i.item.val);
+                },
+                minLength: 1
+            });
+        });
+    </script>
+}

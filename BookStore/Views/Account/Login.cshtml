@@ -1,0 +1,72 @@
+﻿@using BookStore.Models
+
+@model LoginViewModel
+<div style="width:500px;">
+    <div style="margin-left:370px; width:340px;" class="jumbotron">
+
+        @{
+            ViewBag.Title = "Login";
+        }
+
+        <h2>@ViewBag.Title</h2>
+        <div class="row">
+            <div class="col-md-pull-12">
+                <section id="loginForm">
+                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @*<h4>Use a local account to log in.</h4>*@
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        if (TempData["ERROR"] != null)
+                        {
+                            <label class="label label-danger">@TempData["ERROR"].ToString()</label>
+                        }
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Email, new { @class = "col-md control-label" })
+                            <div class="col-md-pull-10">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @MaxLength = 255 })
+                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Password, new { @class = "col-md control-label" })
+                            <div class="col-md-pull-10">
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @MaxLength = 15 })
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        @*<div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <div class="checkbox">
+                                        @Html.CheckBoxFor(m => m.RememberMe)
+                                        @Html.LabelFor(m => m.RememberMe)
+                                    </div>
+                                </div>
+                            </div>*@
+                        <div class="form-group">
+                            <div class="col-md-pull-10 pull-right">
+                                <input type="submit" value="Log in" class="btn btn-primary" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-pull-10 pull-right">
+                                Create a new account? @Html.ActionLink("Register", "Register", null, new { @class = "col-md control-label" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-pull-10 pull-right">
+                                @Html.ActionLink("Forgot Password", "ForgotPassword")
+                            </div>
+                        </div>
+
+                    }
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

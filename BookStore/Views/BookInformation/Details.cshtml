@@ -1,0 +1,97 @@
+﻿@model BookStore.DA.Book
+
+@{
+    ViewBag.Title = "Book Infromation";
+    var currentUser = new BookStore.Models.CustomPrincipal("");
+    if (User.Identity.IsAuthenticated)
+    {
+        currentUser = ((BookStore.Models.CustomPrincipal)(User));
+    }
+}
+@using (Html.BeginForm("Details", "BookInformation", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <div class="jumbotron">
+        <h2>Book Infromation</h2>
+        <hr />
+        @Html.HiddenFor(m => m.Id)
+        <div class="col-sm-6 col-md-6 col-lg-3">
+            @if (Model.Image != null)
+            {
+                var base64 = Convert.ToBase64String(Model.Image);
+                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+
+                <img style="height:250px" src="@imgSrc" class="img-thumbnail" /><br />
+            }
+            else
+            {
+                <img style="height:250px" src="~/Content/Images/No-Image.png" class="img-thumbnail" /><br />
+            }
+        </div>
+        <div style="background:white; margin-left:300px;width:300px; margin-bottom:5px;" class="well">
+            <strong>
+                @Html.DisplayNameFor(model => model.Name)
+            </strong>
+            <div>
+                @Html.DisplayFor(model => model.Name)
+            </div>
+        </div>
+        <div style="background:white; margin-left:300px;width:500px; margin-bottom:5px;" class="well">
+            <strong>
+                @Html.DisplayNameFor(model => model.Description)
+            </strong>
+
+            <div>
+                @Html.DisplayFor(model => model.Description)
+            </div>
+        </div>
+        <div style="background:white; margin-left:300px;width:300px; margin-bottom:5px;" class="well">
+            <strong>
+                @Html.DisplayNameFor(model => model.UnitPrice)
+            </strong>
+
+            <div>
+                @Html.DisplayFor(model => model.UnitPrice)
+            </div>
+            <strong>
+                @Html.DisplayNameFor(model => model.Discount)
+            </strong>
+
+            <div>
+                @Html.DisplayFor(model => model.Discount)
+            </div>
+            <strong>
+                @Html.DisplayNameFor(model => model.ShippingCost)
+            </strong>
+
+            <div>
+                @Html.DisplayFor(model => model.ShippingCost)
+            </div>
+            <strong>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </strong>
+
+            <div>
+                @Html.DisplayFor(model => model.Quantity)
+            </div>
+        </div>
+        <div style="background:white; margin-left:300px;width:300px; margin-bottom:5px;" class="well">
+            @if (Model.Status > 1)
+            {
+                <h3 class="text-danger">@Html.DisplayFor(model => model.BookStatus.Code)</h3>
+            }
+            else if(Model.Quantity == 0)
+            {
+                <h3 class="text-danger">Out Of Stock</h3>
+            }
+            else if (currentUser.Role != null && currentUser.Role.ToUpper().Equals("ADMIN"))
+            {
+                @Html.ActionLink("Edit Book", "AddOrEdit", "Book", new { bookId = Model.Id, returnUrl = "BookDetails" }, new { @class = "btn btn-primary btn-block", role = "button" })
+            }
+            else
+            {
+                @Html.ActionLink("Buy Now", "Buynow", "BookInformation", new { bookId = Model.Id }, new { @class = "btn btn-primary btn-block", role = "button" })
+                @Html.ActionLink("Add to Cart", "AddToCart", "BookInformation", new { bookId = Model.Id }, new { @class = "btn btn-primary btn-block", role = "button" })
+            }
+        </div>
+    </div>
+}
